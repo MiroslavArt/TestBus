@@ -11,12 +11,14 @@
 .bottom.menu.php
 .htaccess
 .leftfirst.menu.php
-.section.php
+/.section.php
 .top.menu.php
 404.php
 500.html
 auth.php
-index.php
+/index.php
 robots.txt
 sect_inc.php
 urlrewrite.php
+!/novosti-rbk/
+/.access.php
