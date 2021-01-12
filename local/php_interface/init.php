@@ -1,7 +1,6 @@
 <?
 Bitrix\Main\Loader::includeModule("iblock");
 
-
 function fillnews()
 {
     $url = 'http://static.feed.rbc.ru/rbc/logical/footer/news.rss';
@@ -14,10 +13,12 @@ function fillnews()
     $xml = simplexml_load_string($data);
 
 
-    $x = 0;
-
     foreach ($xml->channel->item as $item) {
-        $x++;
+        $arFilter = Array("IBLOCK_ID"=>1, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "PROPERTY_URLLink" => $item->link);
+        $res =  CIBlockElement::GetList(Array(), $arFilter, false, false)->Fetch();
+        if($res){
+            return "fillnews();";
+        }
         $date = substr($item->pubDate, 5, 11);
         $datebeg = date("d.m.Y", strtotime($date));
 
@@ -25,7 +26,18 @@ function fillnews()
         $PROP = array();
         $PROP[1] = $item->author;
         $PROP[4] = $item->link;
-        $file = CFile::MakeFileArray($item->enclosure->attributes()->url);
+
+        $file = "";
+
+        foreach ($item -> enclosure as $enc) {
+            if(stristr($enc->attributes()->url, 'jpg') == true) {
+                $file = $enc->attributes()->url;
+                break;
+            }
+        }
+        if($file) {
+            $file = CFile::MakeFileArray($file);
+        }
 
         $arLoadProductArray = Array(
             "MODIFIED_BY" => 1, // элемент изменен текущим пользователем
@@ -43,17 +55,7 @@ function fillnews()
 
         $el->Add($arLoadProductArray);
 
-        /*print '<li><a href = ‘{$item->link}’ title = ‘$item->title’>' .
-            $item->title . '</a> - ' . $item->description . $item->pubDate . $item->link . '</li>';
-
-        foreach ($item->enclosure as $enc) {
-            print $enc->attributes()->url;
-        }*/
-
-
-        if ($x > 5) {
-            return "fillnews()";
-        }
 
     }
+    return "fillnews();";
 }
