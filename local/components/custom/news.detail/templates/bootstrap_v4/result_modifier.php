@@ -1,5 +1,6 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 
+
 /*TAGS*/
 if ($arParams["SEARCH_PAGE"])
 {
@@ -143,4 +144,55 @@ if ($sliderProperty)
 		}
 	}
 }
+
+// счетчик просмотров
+$id = $arResult['ID'];
+$ip = \Bitrix\Main\Service\GeoIp\Manager::getRealIp();
+$arFilter = Array("IBLOCK_ID"=>3, "ACTIVE_DATE"=>"Y", "ACTIVE"=>"Y", "PROPERTY_news" => $id, "PROPERTY_ip" => $ip);
+$res =  CIBlockElement::GetList(Array(), $arFilter, false, false)->Fetch();
+CIBlockElement::GetPropertyValuesArray($elementIndex, 1, array(
+    "IBLOCK_ID" => 1,
+    "ID" => $id,
+));
+
+$visitors = $elementIndex[$id]['visitors']['VALUE'];
+$author = $elementIndex[$id]['author']['VALUE'];
+$urllink = $elementIndex[$id]['urllink']['VALUE'];
+
+if(!$res){
+    $el = new CIBlockElement;
+    $PROP = array();
+    $PROP[5] = $id;
+    $PROP[8] = $ip;
+    $arLoadProductArray = Array(
+        "MODIFIED_BY"    => 1, // элемент изменен текущим пользователем
+        "IBLOCK_SECTION_ID" => false,          // элемент лежит в корне раздела
+        "IBLOCK_ID"      => 3,
+        "PROPERTY_VALUES"=> $PROP,
+        "NAME"           => $ip,
+        "ACTIVE"         => "Y"          // активен
+    );
+    $el->Add($arLoadProductArray);
+
+    $visitors++;
+
+    $elnews = new CIBlockElement;
+    $PROPNEWS = array();
+    $PROPNEWS[1] = $author;
+    $PROPNEWS[4] = $urllink;
+    $PROPNEWS[7] = $visitors;
+    $arLoadProductArrayNews = Array(
+        "PROPERTY_VALUES"=> $PROPNEWS
+    );
+    $elnews->Update($id, $arLoadProductArrayNews);
+}
+
+$arResult['DISPLAY_PROPERTIES']['author'] = $author;
+$arResult['DISPLAY_PROPERTIES']['urllink'] = $urllink;
+$arResult['DISPLAY_PROPERTIES']['visitors'] = $visitors;
+
+
+
+
+
 
