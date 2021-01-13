@@ -22,10 +22,14 @@ function fillnews()
         $date = substr($item->pubDate, 5, 11);
         $datebeg = date("d.m.Y", strtotime($date));
 
+        $datetimepub = substr($item->pubDate, 5, 20);
+        $datebegtime = date("d.m.Y H:i:s", strtotime($datetimepub));
+
         $el = new CIBlockElement;
         $PROP = array();
         $PROP[1] = $item->author;
         $PROP[4] = $item->link;
+        $PROP[9] = $datebegtime;
 
         $file = "";
 

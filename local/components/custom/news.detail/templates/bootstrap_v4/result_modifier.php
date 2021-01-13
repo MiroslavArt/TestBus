@@ -158,6 +158,8 @@ CIBlockElement::GetPropertyValuesArray($elementIndex, 1, array(
 $visitors = $elementIndex[$id]['visitors']['VALUE'];
 $author = $elementIndex[$id]['author']['VALUE'];
 $urllink = $elementIndex[$id]['urllink']['VALUE'];
+$datepub = $elementIndex[$id]['datetimepub']['VALUE'];
+$datepub = date("d.m.Y H:i:s", strtotime($datepub));
 
 if(!$res){
     $el = new CIBlockElement;
@@ -181,6 +183,7 @@ if(!$res){
     $PROPNEWS[1] = $author;
     $PROPNEWS[4] = $urllink;
     $PROPNEWS[7] = $visitors;
+    $PROPNEWS[9] = $datepub;
     $arLoadProductArrayNews = Array(
         "PROPERTY_VALUES"=> $PROPNEWS
     );
