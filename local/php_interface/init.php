@@ -1,6 +1,7 @@
 <?
 Bitrix\Main\Loader::includeModule("iblock");
 
+// агент для чтения новостей
 function fillnews()
 {
     $url = 'http://static.feed.rbc.ru/rbc/logical/footer/news.rss';

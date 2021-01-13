@@ -1,6 +1,6 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Новости компании");
+$APPLICATION->SetTitle("Новости РБК");
 ?>
     <p><?$APPLICATION->IncludeComponent("custom:news", "bootstrap_v4", array(
             "IBLOCK_TYPE" => "news",
@@ -75,7 +75,7 @@ $APPLICATION->SetTitle("Новости компании");
             "PAGER_DESC_NUMBERING_CACHE_TIME" => "36000000",
             "PAGER_SHOW_ALL" => "N",
             "DISPLAY_DATE" => "Y",
-            "DISPLAY_PICTURE" => "Y",
+            "DISPLAY_PICTURE" => "N",
             "DISPLAY_PREVIEW_TEXT" => "Y",
             "AJAX_OPTION_ADDITIONAL" => "",
             "SEF_URL_TEMPLATES" => array(

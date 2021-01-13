@@ -97,18 +97,43 @@ CUtil::InitJSCore(array('fx'));
 			<?if($arParams["DISPLAY_NAME"]!="N" && $arResult["NAME"]):?>
 				<h3 class="news-detail-title"><?=$arResult["NAME"]?></h3>
 			<?endif;?>
-
+            <!-- начало доработки шаблона в рамках тестового задания -->
+            <div class="news-detail-header">
+                <p><?echo $arResult['DISPLAY_PROPERTIES']['datetimepub'];?>
+                    <?if($arResult['DISPLAY_PROPERTIES']['author']):?>
+                        <?echo " автор:".$arResult['DISPLAY_PROPERTIES']['author'];?>
+                    <?endif?>
+                 </p>
+            </div>
+            <div>
+                <a href="<?=$arResult['DISPLAY_PROPERTIES']['urllink'];?>" target="_blank">Ссылка на источник</a>
+            </div>
 			<div class="news-detail-content">
-				<?if($arResult["NAV_RESULT"]):?>
-					<?if($arParams["DISPLAY_TOP_PAGER"]):?><?=$arResult["NAV_STRING"]?><br /><?endif;?>
-					<?echo $arResult["NAV_TEXT"];?>
-					<?if($arParams["DISPLAY_BOTTOM_PAGER"]):?><br /><?=$arResult["NAV_STRING"]?><?endif;?>
-				<?elseif($arResult["DETAIL_TEXT"] <> ''):?>
-					<?echo $arResult["DETAIL_TEXT"];?>
-				<?else:?>
-					<?echo $arResult["PREVIEW_TEXT"];?>
+                <img
+                        class="card-img-top"
+                        src="<?=$arResult["DETAIL_PICTURE"]["SRC"]?>"
+                        alt="<?=$arResult["DETAIL_PICTURE"]["ALT"]?>"
+                        title="<?=$arResult["DETAIL_PICTURE"]["TITLE"]?>"
+                />
+
+                <?if($arResult["NAV_RESULT"]):?>
+                        <?if($arParams["DISPLAY_TOP_PAGER"]):?><?=$arResult["NAV_STRING"]?><br /><?endif;?>
+                        <?echo $arResult["NAV_TEXT"];?>
+                        <?if($arParams["DISPLAY_BOTTOM_PAGER"]):?><br /><?=$arResult["NAV_STRING"]?><?endif;?>
+                    <?elseif($arResult["DETAIL_TEXT"] <> ''):?>
+                        <?echo $arResult["DETAIL_TEXT"];?>
+                    <?else:?>
+                        <?echo $arResult["PREVIEW_TEXT"];?>
 				<?endif?>
+
 			</div>
+            <div class="news-detail-header">
+                <p>
+                    <?echo "Уникальных посетителей:".$arResult['DISPLAY_PROPERTIES']['visitors'];?>
+
+                </p>
+            </div>
+            <!-- конец доработки шаблона в рамках тестового задания -->
 
 		</div>
 
@@ -175,23 +200,7 @@ CUtil::InitJSCore(array('fx'));
 		<?endif;?>
 	<?endforeach;?>
 
-	<?foreach($arResult["DISPLAY_PROPERTIES"] as $pid=>$arProperty):?>
-		<?
-		if(is_array($arProperty["DISPLAY_VALUE"]))
-			$value = implode("&nbsp;/&nbsp;", $arProperty["DISPLAY_VALUE"]);
-		else
-			$value = $arProperty["DISPLAY_VALUE"];
-		?>
-		<?if($arProperty["CODE"] == "FORUM_MESSAGE_CNT"):?>
-			<div class="news-detail-comments"><?=$arProperty["NAME"]?>: <?=$value;?> </div>
-		<?elseif ($value != ""):?>
-			<div class="news-detail-other"><?=$arProperty["NAME"]?>: <?=$value;?> </div>
-		<?endif;?>
-	<?endforeach;?>
 
-	<?if($arParams["DISPLAY_DATE"]!="N" && $arResult["DISPLAY_ACTIVE_FROM"]):?>
-		<div class="news-detail-date"><?echo $arResult["DISPLAY_ACTIVE_FROM"]?></div>
-	<?endif?>
 
 
 

@@ -193,6 +193,9 @@ if(!$res){
 $arResult['DISPLAY_PROPERTIES']['author'] = $author;
 $arResult['DISPLAY_PROPERTIES']['urllink'] = $urllink;
 $arResult['DISPLAY_PROPERTIES']['visitors'] = $visitors;
+$arResult['DISPLAY_PROPERTIES']['datetimepub'] = $datepub;
+
+
 
 
 
