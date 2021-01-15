@@ -25,15 +25,7 @@ $ratingarrayavexp = $ratingarray;
 
 uasort ($ratingarrayavinc, 'av_income');
 
-//echo '<pre>';
-//print_r($ratingarrayavinc);      // здесь есть
-//echo '</pre>';
-
 uasort ($ratingarrayavexp, 'av_exp');
-
-//echo '<pre>';
-//print_r($ratingarrayavexp);      // здесь есть
-//echo '</pre>';
 
 $avinc_keys = array_keys($ratingarrayavinc);
 $avexp_keys = array_keys($ratingarrayavexp);
@@ -44,10 +36,6 @@ foreach ($arResult['ITEMS'] as &$item) {
     $item['av_exp_rating'] = array_search($item['ID'], $avexp_keys) + 1;
     $currentplace++;
 }
-
-echo "<pre>";
-print_r($arResult);
-echo "</pre>";
 
 function av_income($x, $y) {
     if ($x['av_income'] < $y['av_income']) {
